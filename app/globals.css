@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cream: #fff6e3;
+  --ink: #211329;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--cream);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 12% 8%, rgba(224, 172, 255, 0.28), transparent 30%),
+    linear-gradient(180deg, #fff6e3 0%, #f0ecf2 100%);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.paper-texture {
+  position: relative;
+  overflow: hidden;
+}
+
+.paper-texture::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  content: "";
+  opacity: 0.42;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(80, 38, 104, 0.045) 0 1px, transparent 1px 5px),
+    repeating-linear-gradient(90deg, rgba(255, 246, 227, 0.42) 0 1px, transparent 1px 7px);
+  mix-blend-mode: multiply;
+}
+
+.paper-texture > * {
+  position: relative;
+  z-index: 1;
+}
+
+.ripple-field {
+  background:
+    radial-gradient(ellipse at 50% 10%, rgba(255, 246, 227, 0.8) 0 8%, transparent 8% 13%, rgba(242, 219, 255, 0.65) 13% 18%, transparent 18% 24%),
+    repeating-radial-gradient(ellipse at 50% 8%, rgba(152, 0, 255, 0.16) 0 2px, transparent 2px 19px),
+    linear-gradient(135deg, #f2dbff 0%, #d6c1e3 48%, #b76de2 100%);
+}
+
+.silk-button {
+  box-shadow: inset 0 -2px 0 rgba(33, 19, 41, 0.16);
+}
+
+.sparkle-glint {
+  opacity: 0.36;
+  animation: sparkle-glint 3.35s ease-in-out infinite;
+}
+
+.sparkle-fleck {
+  opacity: 0.38;
+  animation: sparkle-fleck 3.75s ease-in-out infinite;
+}
+
+@keyframes sparkle-glint {
+  0%,
+  100% {
+    opacity: 0.32;
+    transform: scale(0.94);
+  }
+  48% {
+    opacity: 0.78;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes sparkle-fleck {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  55% {
+    opacity: 0.66;
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

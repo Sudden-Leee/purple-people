@@ -9,12 +9,24 @@ type ShareCardScreenProps = {
 };
 
 export function ShareCardScreen({ result, onBack, onRestart }: ShareCardScreenProps) {
-  const [copied, setCopied] = useState(false);
+  const [shareMessage, setShareMessage] = useState("");
 
-  const copyResult = async () => {
-    const text = `Purple People 결과: ${result.title} (${result.subtitle})\n${result.description}`;
-    await navigator.clipboard.writeText(text);
-    setCopied(true);
+  const shareResult = async () => {
+    if (!navigator.share) {
+      setShareMessage("공유창을 열 수 없어요.");
+      return;
+    }
+
+    try {
+      await navigator.share({
+        title: "Purple People",
+        text: `나의 Personal Purple은 ${result.title}입니다.`,
+        url: window.location.href,
+      });
+      setShareMessage("");
+    } catch {
+      setShareMessage("공유창을 열 수 없어요.");
+    }
   };
 
   return (
@@ -24,7 +36,7 @@ export function ShareCardScreen({ result, onBack, onRestart }: ShareCardScreenPr
           뒤로
         </button>
         <p className="text-center text-sm font-bold text-dark">Share Card</p>
-        <button type="button" onClick={copyResult} className="h-11 rounded-2xl bg-white/55 px-4 font-bold text-deep">
+        <button type="button" onClick={shareResult} className="h-11 rounded-2xl bg-white/55 px-4 font-bold text-deep">
           공유
         </button>
       </header>
@@ -46,9 +58,15 @@ export function ShareCardScreen({ result, onBack, onRestart }: ShareCardScreenPr
         </p>
       </div>
 
+      {shareMessage && (
+        <p className="rounded-2xl bg-white/55 px-4 py-3 text-center text-sm font-semibold leading-5 text-deep">
+          {shareMessage}
+        </p>
+      )}
+
       <div className="mt-auto grid grid-cols-[1fr_1fr] gap-3">
-        <button type="button" onClick={copyResult} className="silk-button h-14 rounded-2xl bg-deep font-bold text-cream">
-          {copied ? "복사 완료" : "결과 복사"}
+        <button type="button" onClick={shareResult} className="silk-button h-14 rounded-2xl bg-deep font-bold text-cream">
+          공유하기
         </button>
         <button type="button" onClick={onRestart} className="h-14 rounded-2xl bg-white/55 font-bold text-deep">
           다시 하기

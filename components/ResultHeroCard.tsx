@@ -24,6 +24,62 @@ function hexToRgba(hex: string, alpha: number) {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
+function getSaturationColor(level: ResultType["saturation"]) {
+  if (level === "muted") return "#D6C1E3";
+  if (level === "vivid") return "#9800FF";
+  return "#B76DE2";
+}
+
+function getLightnessColor(level: ResultType["lightness"]) {
+  if (level === "high") return "#E0ACFF";
+  if (level === "low") return "#502668";
+  return "#B76DE2";
+}
+
+function ScoreBar({
+  label,
+  value,
+  leftLabel,
+  rightLabel,
+  color,
+}: {
+  label: string;
+  value: number;
+  leftLabel: string;
+  rightLabel: string;
+  color: string;
+}) {
+  const normalizedValue = Math.max(0, Math.min(100, value));
+
+  return (
+    <div data-score-bar={label}>
+      <div className="mb-2 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.08em] text-cream/86">
+        <span>{label}</span>
+        <span>{normalizedValue}</span>
+      </div>
+      <div
+        className="relative h-3.5 rounded-full border border-cream/55 shadow-[inset_0_1px_2px_rgba(33,19,41,0.16)]"
+        style={{ backgroundColor: "rgba(255, 246, 227, 0.72)" }}
+      >
+        <div
+          data-score-fill="true"
+          className="h-full rounded-full"
+          style={{ width: `${normalizedValue}%`, backgroundColor: color }}
+        />
+        <div
+          data-score-marker="true"
+          className="absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-cream shadow-[0_2px_10px_rgba(33,19,41,0.28)]"
+          style={{ left: `${normalizedValue}%`, backgroundColor: color }}
+        />
+      </div>
+      <div className="mt-2 flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.08em] text-cream/72">
+        <span>{leftLabel}</span>
+        <span>{rightLabel}</span>
+      </div>
+    </div>
+  );
+}
+
 export function ResultHeroCard({ result, mode = "result", saturationScore, lightnessScore }: ResultHeroCardProps) {
   const description = mode === "share" ? result.description.split(".")[0] + "." : result.description;
   const minHeight = mode === "share" ? "min-h-[430px]" : "min-h-[560px]";
@@ -61,15 +117,21 @@ export function ResultHeroCard({ result, mode = "result", saturationScore, light
             <LogoText>{result.title}</LogoText>
           </h2>
           {showStats && (
-            <div className="mt-5 grid grid-cols-2 gap-4 border-y border-cream/24 py-3">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.08em] text-cream/74">채도</p>
-                <p className="mt-1 text-3xl font-bold leading-none text-cream">{saturationScore}</p>
-              </div>
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.08em] text-cream/74">명도</p>
-                <p className="mt-1 text-3xl font-bold leading-none text-cream">{lightnessScore}</p>
-              </div>
+            <div className="mt-5 space-y-3 border-y border-cream/22 py-4">
+              <ScoreBar
+                label="채도"
+                value={saturationScore}
+                leftLabel="Muted"
+                rightLabel="Vivid"
+                color={getSaturationColor(result.saturation)}
+              />
+              <ScoreBar
+                label="명도"
+                value={lightnessScore}
+                leftLabel="Bright"
+                rightLabel="Dark"
+                color={getLightnessColor(result.lightness)}
+              />
             </div>
           )}
           <div className="mb-4 mt-5 flex flex-wrap gap-2">

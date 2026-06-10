@@ -60,7 +60,6 @@ export default function Page() {
           answers={answers}
           result={result}
           profile={profile}
-          onShare={() => setStep("share")}
           onRestart={restart}
         />
       )}

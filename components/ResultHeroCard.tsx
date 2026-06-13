@@ -38,11 +38,22 @@ function getDisplayColor(result: ResultType) {
   return result.hex;
 }
 
-function getCoordinate(result: ResultType) {
-  const x = result.saturation === "muted" ? 0.28 : result.saturation === "vivid" ? 0.72 : 0.5;
-  const y = result.lightness === "high" ? 0.34 : result.lightness === "low" ? 0.66 : 0.5;
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
 
-  return { x, y };
+function getCoordinate(result: ResultType, saturationScore?: number, lightnessScore?: number) {
+  if (typeof saturationScore === "number" && typeof lightnessScore === "number") {
+    return {
+      x: clamp(saturationScore / 100, 0.18, 0.82),
+      y: clamp(lightnessScore / 100, 0.2, 0.8),
+    };
+  }
+
+  return {
+    x: result.saturation === "muted" ? 0.28 : result.saturation === "vivid" ? 0.72 : 0.5,
+    y: result.lightness === "high" ? 0.34 : result.lightness === "low" ? 0.66 : 0.5,
+  };
 }
 
 function DescriptionBlock({ text }: { text: string }) {
@@ -57,21 +68,29 @@ function DescriptionBlock({ text }: { text: string }) {
   );
 }
 
-function QuadrantGraph({ result }: { result: ResultType }) {
-  const position = getCoordinate(result);
+function QuadrantGraph({
+  result,
+  saturationScore,
+  lightnessScore,
+}: {
+  result: ResultType;
+  saturationScore?: number;
+  lightnessScore?: number;
+}) {
+  const position = getCoordinate(result, saturationScore, lightnessScore);
 
   return (
-    <div className="mt-11">
-      <div className="relative mx-auto aspect-[0.9] w-full max-w-[300px] px-2 text-deep">
+    <div className="mt-5">
+      <div className="relative mx-auto aspect-[1.18] w-full max-w-[300px] px-2 text-deep">
         <div className="absolute left-[20%] right-[20%] top-1/2 h-[1.5px] bg-[var(--result-color)] opacity-70" />
-        <div className="absolute bottom-[23%] left-1/2 top-[29%] w-[1.5px] bg-[var(--result-color)] opacity-70" />
+        <div className="absolute bottom-[17%] left-1/2 top-[24%] w-[1.5px] bg-[var(--result-color)] opacity-70" />
 
-        <div className="absolute left-1/2 top-[21%] w-[74%] -translate-x-1/2 text-center">
+        <div className="absolute left-1/2 top-[12%] w-[74%] -translate-x-1/2 text-center">
           <p className="break-keep text-[9px] font-medium leading-3 text-deep/58 [word-break:keep-all]">맥락과 여백을 크게 고려하는 사람</p>
           <p className="mt-1 text-[20px] font-medium uppercase leading-none tracking-[0.06em] text-[var(--result-color)]">Bright</p>
         </div>
 
-        <div className="absolute bottom-[16%] left-1/2 w-[72%] -translate-x-1/2 text-center">
+        <div className="absolute bottom-[7%] left-1/2 w-[72%] -translate-x-1/2 text-center">
           <p className="text-[20px] font-medium uppercase leading-none tracking-[0.06em] text-[var(--result-color)]">Dark</p>
           <p className="mt-1.5 break-keep text-[9px] font-medium leading-3 text-deep/58 [word-break:keep-all]">입장과 선택이 견고한 사람</p>
         </div>
@@ -109,7 +128,7 @@ function QuadrantGraph({ result }: { result: ResultType }) {
   );
 }
 
-export function ResultHeroCard({ result, mode = "result" }: ResultHeroCardProps) {
+export function ResultHeroCard({ result, mode = "result", saturationScore, lightnessScore }: ResultHeroCardProps) {
   const description = mode === "share" ? result.description.split(".")[0] + "." : result.description;
   const minHeight = mode === "share" ? "min-h-[620px]" : "min-h-[860px]";
   const panelHeight = mode === "share" ? "min-h-[500px]" : "min-h-[720px]";
@@ -159,7 +178,7 @@ export function ResultHeroCard({ result, mode = "result" }: ResultHeroCardProps)
 
         <DescriptionBlock text={description} />
 
-        <QuadrantGraph result={result} />
+        <QuadrantGraph result={result} saturationScore={saturationScore} lightnessScore={lightnessScore} />
       </div>
     </div>
   );

@@ -44,23 +44,25 @@ export function QuestionScreen({
           alt=""
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,246,227,0.62)_0%,rgba(255,246,227,0.2)_42%,rgba(58,27,73,0.16)_100%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_36%,rgba(255,250,238,0.64)_0%,rgba(255,250,238,0.24)_40%,rgba(255,250,238,0)_68%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,246,227,0.48)_0%,rgba(255,246,227,0.18)_42%,rgba(58,27,73,0.16)_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_39%,rgba(255,250,238,0.5)_0%,rgba(255,250,238,0.18)_40%,rgba(255,250,238,0)_68%)]" />
 
-        <header className="relative z-10 pt-1 text-center">
-          <Logo className="text-[15px] font-semibold leading-none text-deep" />
-          <p className="mt-1 font-serif text-[10px] font-normal leading-none text-deep/72">Your Personal Purple</p>
-        </header>
+        <div className="relative z-10 pt-1">
+          <header className="text-center">
+            <Logo className="text-[15px] font-semibold leading-none text-deep" />
+            <p className="mt-1 font-serif text-[10px] font-normal leading-none text-deep/72">Your Personal Purple</p>
+          </header>
 
-        <div className="relative z-10 mt-7 flex items-center justify-between text-[11px] font-semibold uppercase tracking-[0.12em] text-deep/64">
-          <span>Question {String(question.id).padStart(2, "0")}</span>
-          <span>{progress}%</span>
+          <div className="mt-8 flex items-center justify-between text-[11px] font-semibold uppercase tracking-[0.12em] text-deep/72">
+            <span>Question {String(question.id).padStart(2, "0")}</span>
+            <span>{progress}%</span>
+          </div>
+          <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/42 shadow-[0_1px_8px_rgba(80,38,104,0.08)]">
+            <div className="h-full rounded-full bg-deep/76 transition-all" style={{ width: `${progress}%` }} />
+          </div>
         </div>
-        <div className="relative z-10 mt-2 h-1.5 overflow-hidden rounded-full bg-white/48">
-          <div className="h-full rounded-full bg-deep/76 transition-all" style={{ width: `${progress}%` }} />
-        </div>
 
-        <div className="relative z-10 mt-5 flex flex-1 flex-col rounded-[30px] bg-[#FFF7E6]/88 px-5 py-6 text-ink shadow-[0_18px_56px_rgba(33,19,41,0.15)] backdrop-blur-[2px]">
+        <div className="relative z-10 mt-7 flex flex-1 flex-col rounded-[30px] bg-[#FFF7E6]/84 px-5 py-6 text-ink shadow-[0_18px_56px_rgba(33,19,41,0.15)] backdrop-blur-[2px]">
           <div className="text-center">
             <p className="font-serif text-[11px] leading-none text-deep/58">choose your shade</p>
             <h2 className="mx-auto mt-5 max-w-[300px] break-keep text-[23px] font-semibold leading-snug text-ink [word-break:keep-all]">

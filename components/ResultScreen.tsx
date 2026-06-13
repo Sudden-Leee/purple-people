@@ -3,7 +3,6 @@ import { toPng } from "html-to-image";
 import type { Answers, ScoreProfile } from "@/lib/scoring";
 import type { ResultType } from "@/data/results";
 import { Logo, LogoText } from "./Logo";
-import { PurpleMap } from "./PurpleMap";
 import { ResultHeroCard } from "./ResultHeroCard";
 
 type ResultScreenProps = {
@@ -171,24 +170,22 @@ export function ResultScreen({ result, profile, onRestart }: ResultScreenProps) 
 
       <ResultHeroCard result={result} saturationScore={profile.vividScore} lightnessScore={lightnessScore} />
 
-      <PurpleMap currentResultId={result.id} />
-
       {message && (
         <p className="rounded-2xl bg-white/55 px-4 py-3 text-center text-sm font-semibold leading-5 text-deep">
           {message}
         </p>
       )}
 
-      <div className="mt-auto grid grid-cols-2 gap-3">
-        <button type="button" onClick={handleShare} className="silk-button h-14 rounded-2xl bg-deep font-bold text-cream">
+      <div className="mt-auto grid grid-cols-2 gap-3 pt-1">
+        <button type="button" onClick={handleShare} className="silk-button h-14 rounded-2xl bg-deep font-bold text-cream shadow-[0_14px_30px_rgba(80,38,104,0.2)]">
           공유하기
         </button>
-        <button type="button" onClick={handleSaveColor} disabled={isSaving} className="flex h-14 items-center justify-center gap-2 rounded-2xl bg-white/55 font-bold text-deep disabled:opacity-60">
+        <button type="button" onClick={handleSaveColor} disabled={isSaving} className="flex h-14 items-center justify-center gap-2 rounded-2xl border border-white/76 bg-white/62 font-bold text-deep shadow-[0_14px_30px_rgba(80,38,104,0.1)] disabled:opacity-60">
           <DownloadIcon />
           {isSaving ? "저장 중" : "컬러 저장"}
         </button>
       </div>
-      <button type="button" onClick={onRestart} className="h-14 rounded-2xl bg-white/55 font-bold text-deep">
+      <button type="button" onClick={onRestart} className="h-14 rounded-2xl border border-white/76 bg-white/62 font-bold text-deep shadow-[0_14px_30px_rgba(80,38,104,0.1)]">
         다시 테스트하기
       </button>
 

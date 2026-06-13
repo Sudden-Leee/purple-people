@@ -1,4 +1,5 @@
 import type { ResultType } from "@/data/results";
+import type { CSSProperties } from "react";
 import { Logo, LogoText } from "./Logo";
 
 type ResultHeroCardProps = {
@@ -24,128 +25,140 @@ function hexToRgba(hex: string, alpha: number) {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
-function getSaturationColor(level: ResultType["saturation"]) {
-  if (level === "muted") return "#D6C1E3";
-  if (level === "vivid") return "#9800FF";
-  return "#B76DE2";
+function getPanelTint(result: ResultType) {
+  if (result.lightness === "low") return "rgba(255, 246, 227, 0.9)";
+  if (result.saturation === "muted") return "rgba(247, 244, 238, 0.93)";
+  return "rgba(255, 246, 227, 0.92)";
 }
 
-function getLightnessColor(level: ResultType["lightness"]) {
-  if (level === "high") return "#E0ACFF";
-  if (level === "low") return "#502668";
-  return "#B76DE2";
+function getDisplayColor(result: ResultType) {
+  if (result.id === "pale") return "#8D7A97";
+  if (result.id === "soft") return "#C591E5";
+  if (result.id === "bright") return "#C08AF0";
+  return result.hex;
 }
 
-function ScoreBar({
-  label,
-  value,
-  leftLabel,
-  rightLabel,
-  color,
-}: {
-  label: string;
-  value: number;
-  leftLabel: string;
-  rightLabel: string;
-  color: string;
-}) {
-  const normalizedValue = Math.max(0, Math.min(100, value));
+function getCoordinate(result: ResultType) {
+  const x = result.saturation === "muted" ? 0.28 : result.saturation === "vivid" ? 0.72 : 0.5;
+  const y = result.lightness === "high" ? 0.34 : result.lightness === "low" ? 0.66 : 0.5;
+
+  return { x, y };
+}
+
+function DescriptionBlock({ text }: { text: string }) {
+  const sentences = text.split(".").map((sentence) => sentence.trim()).filter(Boolean);
 
   return (
-    <div data-score-bar={label}>
-      <div className="mb-2 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.08em] text-cream/86">
-        <span>{label}</span>
-        <span>{normalizedValue}</span>
-      </div>
-      <div
-        className="relative h-3.5 rounded-full border border-cream/55 shadow-[inset_0_1px_2px_rgba(33,19,41,0.16)]"
-        style={{ backgroundColor: "rgba(255, 246, 227, 0.72)" }}
-      >
+    <div className="mx-auto mt-9 max-w-[286px] space-y-2.5 break-keep border-y border-deep/8 py-5 text-center text-[14px] font-medium leading-7 text-ink/78 [word-break:keep-all]">
+      {sentences.map((sentence) => (
+        <p key={sentence}>{sentence}.</p>
+      ))}
+    </div>
+  );
+}
+
+function QuadrantGraph({ result }: { result: ResultType }) {
+  const position = getCoordinate(result);
+
+  return (
+    <div className="mt-11">
+      <div className="relative mx-auto aspect-[0.9] w-full max-w-[300px] rounded-[26px] bg-cream/18 px-2 text-deep">
+        <div className="absolute left-1/2 top-[21%] w-[74%] -translate-x-1/2 text-center">
+          <p className="break-keep text-[9px] font-medium leading-3 text-deep/58 [word-break:keep-all]">맥락과 여백을 크게 고려하는 사람</p>
+          <p className="mt-1 text-[20px] font-medium uppercase leading-none tracking-[0.06em] text-[var(--result-color)]">Bright</p>
+        </div>
+
+        <div className="absolute bottom-[16%] left-1/2 w-[72%] -translate-x-1/2 text-center">
+          <p className="text-[20px] font-medium uppercase leading-none tracking-[0.06em] text-[var(--result-color)]">Dark</p>
+          <p className="mt-1.5 break-keep text-[9px] font-medium leading-3 text-deep/58 [word-break:keep-all]">입장과 선택이 견고한 사람</p>
+        </div>
+
+        <div className="absolute left-[4%] top-1/2 w-[29%] -translate-y-1/2 text-left">
+          <p className="text-[18px] font-medium uppercase leading-none tracking-[0.04em] text-[var(--result-color)]">Muted</p>
+          <p className="mt-2 break-keep text-[9px] font-medium leading-3 text-deep/58 [word-break:keep-all]">주변 환경을<br />중요시하는 사람</p>
+        </div>
+
+        <div className="absolute right-[4%] top-1/2 w-[29%] -translate-y-1/2 text-right">
+          <p className="text-[18px] font-medium uppercase leading-none tracking-[0.04em] text-[var(--result-color)]">Vivid</p>
+          <p className="mt-2 break-keep text-[9px] font-medium leading-3 text-deep/58 [word-break:keep-all]">개인의 선택을<br />중요시 하는 사람</p>
+        </div>
+
+        <div className="absolute left-[22%] right-[22%] top-1/2 h-px bg-[var(--result-color)]/42" />
+        <div className="absolute bottom-[25%] left-1/2 top-[31%] w-px bg-[var(--result-color)]/42" />
         <div
-          data-score-fill="true"
-          className="h-full rounded-full"
-          style={{ width: `${normalizedValue}%`, backgroundColor: color }}
-        />
-        <div
-          data-score-marker="true"
-          className="absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-cream shadow-[0_2px_10px_rgba(33,19,41,0.28)]"
-          style={{ left: `${normalizedValue}%`, backgroundColor: color }}
+          className="absolute h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-[3px] border-cream shadow-[0_5px_16px_rgba(80,38,104,0.24)]"
+          style={{
+            left: `${position.x * 100}%`,
+            top: `${position.y * 100}%`,
+            backgroundColor: "var(--result-dot)",
+          }}
         />
       </div>
-      <div className="mt-2 flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.08em] text-cream/72">
-        <span>{leftLabel}</span>
-        <span>{rightLabel}</span>
+
+      <div className="mt-4 break-keep border-t border-deep/10 pt-4 text-[11px] font-medium leading-5 text-deep/68 [word-break:keep-all]">
+        <p className="text-center text-[12px] font-semibold text-ink/78">퍼플피플은 생각의 밀도와 선택의 채도로 분석합니다.</p>
+        <div className="mx-auto mt-3 grid max-w-[278px] gap-1.5">
+          <p className="whitespace-nowrap"><span className="mr-2 inline-block w-[48px] font-semibold uppercase tracking-[0.04em] text-[var(--result-color)]">Bright</span>맥락과 여백을 크게 고려하는 사람</p>
+          <p className="whitespace-nowrap"><span className="mr-2 inline-block w-[48px] font-semibold uppercase tracking-[0.04em] text-[var(--result-color)]">Dark</span>입장과 선택이 견고한 사람</p>
+          <p className="whitespace-nowrap"><span className="mr-2 inline-block w-[48px] font-semibold uppercase tracking-[0.04em] text-[var(--result-color)]">Muted</span>주변 환경을 중요시하는 사람</p>
+          <p className="whitespace-nowrap"><span className="mr-2 inline-block w-[48px] font-semibold uppercase tracking-[0.04em] text-[var(--result-color)]">Vivid</span>개인의 선택을 중요시 하는 사람</p>
+        </div>
       </div>
     </div>
   );
 }
 
-export function ResultHeroCard({ result, mode = "result", saturationScore, lightnessScore }: ResultHeroCardProps) {
+export function ResultHeroCard({ result, mode = "result" }: ResultHeroCardProps) {
   const description = mode === "share" ? result.description.split(".")[0] + "." : result.description;
-  const minHeight = mode === "share" ? "min-h-[430px]" : "min-h-[560px]";
-  const showStats = typeof saturationScore === "number" && typeof lightnessScore === "number";
-  const bottomOverlay = hexToRgba(result.hex, 0.72);
-  const midOverlay = hexToRgba(result.hex, 0.38);
-  const topOverlay = hexToRgba(result.hex, 0.08);
+  const minHeight = mode === "share" ? "min-h-[620px]" : "min-h-[860px]";
+  const panelHeight = mode === "share" ? "min-h-[500px]" : "min-h-[720px]";
+  const panelTint = getPanelTint(result);
+  const displayColor = getDisplayColor(result);
 
   return (
-    <div className={`relative overflow-hidden rounded-[32px] border border-white/70 bg-deep shadow-soft ${minHeight}`}>
-      <img src={result.image} alt="" className="absolute inset-0 h-full w-full object-cover" />
+    <div
+      className={`result-key-card relative overflow-hidden rounded-[32px] border border-white/70 bg-deep p-8 shadow-soft ${minHeight}`}
+      style={{ "--result-color": displayColor, "--result-dot": result.hex } as CSSProperties}
+    >
+      <img src={result.image} alt="" className="absolute inset-0 h-full w-full scale-110 object-cover" />
+      <div className="absolute inset-0 bg-cream/26 mix-blend-screen" />
+      <div className="absolute inset-0" style={{ background: `linear-gradient(180deg, ${hexToRgba(result.hex, 0.34)} 0%, rgba(255,246,227,0.38) 48%, ${hexToRgba(result.hex, 0.3)} 100%)` }} />
+
       <div
-        className="absolute inset-0"
-        style={{
-          background: `linear-gradient(to top, ${bottomOverlay} 0%, ${midOverlay} 44%, ${topOverlay} 100%)`,
-        }}
-      />
-      <div
-        className="absolute inset-x-0 bottom-0 h-2/3"
-        style={{
-          background: `linear-gradient(to top, ${hexToRgba(result.hex, 0.82)} 0%, ${hexToRgba(result.hex, 0.48)} 54%, ${hexToRgba(result.hex, 0)} 100%)`,
-        }}
-      />
-      <div className={`relative z-10 flex ${minHeight} flex-col justify-between p-6 text-cream [text-shadow:0_1px_16px_rgba(33,19,41,0.28)]`}>
-        <div>
-          <Logo className="text-xs font-semibold text-cream/90" />
+        className={`relative z-10 flex ${panelHeight} flex-col overflow-hidden rounded-[24px] border border-cream/78 px-5 py-6 text-ink shadow-[0_18px_60px_rgba(33,19,41,0.18)]`}
+        style={{ backgroundColor: panelTint }}
+      >
+        <div className="text-center">
+          <Logo className="text-[18px] font-medium leading-none text-ink" />
+          <p className="mt-1 font-serif text-[10px] font-normal leading-none text-ink/76">Your Personal Purple</p>
         </div>
 
-        <div>
-          <div className="mb-5 flex items-center gap-3">
-            <div className="h-11 w-11 rounded-2xl border-2 border-white/80 shadow-soft" style={{ backgroundColor: result.hex }} />
-            <p className="text-sm font-semibold text-cream/90">{result.subtitle}</p>
+        <div className="mt-10 flex items-center justify-center gap-4">
+          <div className="h-[50px] w-[50px] shrink-0 rounded-full border border-white/90 bg-white/36 p-1.5 shadow-[0_10px_24px_rgba(80,38,104,0.16)]">
+            <div className="h-full w-full rounded-full" style={{ backgroundColor: "var(--result-dot)" }} />
           </div>
-          <h2 className="text-[40px] font-medium leading-none text-cream">
-            <LogoText>{result.title}</LogoText>
-          </h2>
-          {showStats && (
-            <div className="mt-5 space-y-3 border-y border-cream/22 py-4">
-              <ScoreBar
-                label="채도"
-                value={saturationScore}
-                leftLabel="Muted"
-                rightLabel="Vivid"
-                color={getSaturationColor(result.saturation)}
-              />
-              <ScoreBar
-                label="명도"
-                value={lightnessScore}
-                leftLabel="Bright"
-                rightLabel="Dark"
-                color={getLightnessColor(result.lightness)}
-              />
-            </div>
-          )}
-          <div className="mb-4 mt-5 flex flex-wrap gap-2">
-            {result.keywords.map((keyword) => (
-              <span
-                key={keyword}
-                className="rounded-full bg-cream/18 px-3 py-2 text-sm font-semibold text-cream backdrop-blur-sm"
-              >
-                #{keyword}
-              </span>
-            ))}
+          <div className="min-w-0">
+            <h2 className="text-[40px] font-medium uppercase leading-none text-[var(--result-color)]">
+              <LogoText>{result.title.replace(" Purple", "")}</LogoText>
+            </h2>
+            <p className="mt-2 text-center text-[11px] font-semibold leading-4 text-deep/56">{result.subtitle}</p>
           </div>
-          <p className="text-[15px] font-semibold leading-7 text-cream/92">{description}</p>
         </div>
+
+        <div className="mt-8 grid grid-cols-3 gap-2.5">
+          {result.keywords.map((keyword) => (
+            <span
+              key={keyword}
+              className="flex min-h-[42px] min-w-0 items-center justify-center rounded-[999px] border border-white/76 bg-white/44 px-2.5 text-center text-[11px] font-semibold leading-4 text-deep/70 shadow-[inset_0_0_0_1px_rgba(80,38,104,0.035),0_8px_18px_rgba(80,38,104,0.045)] backdrop-blur-sm"
+            >
+              {keyword}
+            </span>
+          ))}
+        </div>
+
+        <DescriptionBlock text={description} />
+
+        <QuadrantGraph result={result} />
       </div>
     </div>
   );

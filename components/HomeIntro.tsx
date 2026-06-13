@@ -11,7 +11,7 @@ export function HomeIntro({ onStart }: HomeIntroProps) {
         <Logo className="text-xs font-semibold" />
       </header>
 
-      <div className="relative flex flex-1 overflow-hidden rounded-[32px] border border-white/70 bg-cream shadow-soft">
+      <div className="relative flex flex-1 overflow-hidden bg-cream shadow-soft">
         <img
           src="/visuals/natural-purple.png.jpg"
           alt=""
@@ -20,7 +20,7 @@ export function HomeIntro({ onStart }: HomeIntroProps) {
         <div className="absolute inset-0 bg-[rgba(255,246,227,0.12)]" />
         <div className="relative z-10 min-h-[560px] w-full p-5">
           <div className="absolute inset-0 flex items-center justify-center p-5">
-            <div className="w-full rounded-3xl border border-white/40 bg-[rgba(245,242,236,0.22)] p-6 text-center text-deep shadow-[0_12px_30px_rgba(80,38,104,0.1)] backdrop-blur-md">
+            <div className="w-full rounded-3xl bg-[rgba(245,242,236,0.22)] p-6 text-center text-deep shadow-[0_12px_30px_rgba(80,38,104,0.1)] backdrop-blur-md">
               <p className="text-sm font-semibold text-natural [text-shadow:0_1px_12px_rgba(245,242,236,0.72)]">
                 양극화된 색깔론이 아닌
               </p>

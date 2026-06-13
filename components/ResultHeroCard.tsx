@@ -62,7 +62,10 @@ function QuadrantGraph({ result }: { result: ResultType }) {
 
   return (
     <div className="mt-11">
-      <div className="relative mx-auto aspect-[0.9] w-full max-w-[300px] rounded-[26px] bg-cream/18 px-2 text-deep">
+      <div className="relative mx-auto aspect-[0.9] w-full max-w-[300px] px-2 text-deep">
+        <div className="absolute left-[20%] right-[20%] top-1/2 h-[1.5px] bg-[var(--result-color)] opacity-70" />
+        <div className="absolute bottom-[23%] left-1/2 top-[29%] w-[1.5px] bg-[var(--result-color)] opacity-70" />
+
         <div className="absolute left-1/2 top-[21%] w-[74%] -translate-x-1/2 text-center">
           <p className="break-keep text-[9px] font-medium leading-3 text-deep/58 [word-break:keep-all]">맥락과 여백을 크게 고려하는 사람</p>
           <p className="mt-1 text-[20px] font-medium uppercase leading-none tracking-[0.06em] text-[var(--result-color)]">Bright</p>
@@ -83,8 +86,6 @@ function QuadrantGraph({ result }: { result: ResultType }) {
           <p className="mt-2 break-keep text-[9px] font-medium leading-3 text-deep/58 [word-break:keep-all]">개인의 선택을<br />중요시 하는 사람</p>
         </div>
 
-        <div className="absolute left-[22%] right-[22%] top-1/2 h-px bg-[var(--result-color)]/42" />
-        <div className="absolute bottom-[25%] left-1/2 top-[31%] w-px bg-[var(--result-color)]/42" />
         <div
           className="absolute h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-[3px] border-cream shadow-[0_5px_16px_rgba(80,38,104,0.24)]"
           style={{
@@ -117,7 +118,7 @@ export function ResultHeroCard({ result, mode = "result" }: ResultHeroCardProps)
 
   return (
     <div
-      className={`result-key-card relative overflow-hidden rounded-[32px] border border-white/70 bg-deep p-8 shadow-soft ${minHeight}`}
+      className={`result-key-card relative overflow-hidden border border-white/70 bg-deep p-8 shadow-soft ${minHeight}`}
       style={{ "--result-color": displayColor, "--result-dot": result.hex } as CSSProperties}
     >
       <img src={result.image} alt="" className="absolute inset-0 h-full w-full scale-110 object-cover" />
@@ -138,7 +139,7 @@ export function ResultHeroCard({ result, mode = "result" }: ResultHeroCardProps)
             <div className="h-full w-full rounded-full" style={{ backgroundColor: "var(--result-dot)" }} />
           </div>
           <div className="min-w-0">
-            <h2 className="text-[40px] font-medium uppercase leading-none text-[var(--result-color)]">
+            <h2 className="text-[32px] font-medium uppercase leading-none text-[var(--result-color)]">
               <LogoText>{result.title.replace(" Purple", "")}</LogoText>
             </h2>
             <p className="mt-2 text-center text-[11px] font-semibold leading-4 text-deep/56">{result.subtitle}</p>

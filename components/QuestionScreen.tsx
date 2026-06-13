@@ -37,7 +37,7 @@ export function QuestionScreen({
   const visual = questionVisuals[currentIndex % questionVisuals.length];
 
   return (
-    <section className="-mx-5 -my-5 flex min-h-dvh flex-col overflow-hidden rounded-[34px] bg-cream">
+    <section className="-mx-5 -my-5 flex min-h-dvh flex-col overflow-hidden bg-cream">
       <div className="relative flex flex-1 flex-col overflow-hidden px-5 py-5">
         <img
           src={visual}
@@ -60,7 +60,7 @@ export function QuestionScreen({
           <div className="h-full rounded-full bg-deep/76 transition-all" style={{ width: `${progress}%` }} />
         </div>
 
-        <div className="relative z-10 mt-5 flex flex-1 flex-col rounded-[30px] border border-white/60 bg-[#FFF7E6]/88 px-5 py-6 text-ink shadow-[0_18px_56px_rgba(33,19,41,0.15)] backdrop-blur-[2px]">
+        <div className="relative z-10 mt-5 flex flex-1 flex-col rounded-[30px] bg-[#FFF7E6]/88 px-5 py-6 text-ink shadow-[0_18px_56px_rgba(33,19,41,0.15)] backdrop-blur-[2px]">
           <div className="text-center">
             <p className="font-serif text-[11px] leading-none text-deep/58">choose your shade</p>
             <h2 className="mx-auto mt-5 max-w-[300px] break-keep text-[23px] font-semibold leading-snug text-ink [word-break:keep-all]">
@@ -69,11 +69,11 @@ export function QuestionScreen({
           </div>
 
           <div className="mt-9 grid gap-3">
-            <div className="rounded-[24px] border border-[#F8EED8]/85 bg-[#F4EAD2]/82 p-5 shadow-[0_10px_26px_rgba(80,38,104,0.06)]">
-              <div className="mb-4 h-1.5 w-12 rounded-full bg-[#DFC995]" />
+            <div className="rounded-[24px] bg-[#EEDAB2]/95 p-5 shadow-[0_10px_26px_rgba(80,38,104,0.06)]">
+              <div className="mb-4 h-1.5 w-12 rounded-full bg-[#C9A85D]" />
               <p className="break-keep text-[16px] font-semibold leading-7 text-ink/82 [word-break:keep-all]">{question.a}</p>
             </div>
-            <div className="rounded-[24px] border border-[#EAD7F4]/75 bg-[#CDA7E4]/36 p-5 shadow-[0_10px_26px_rgba(80,38,104,0.07)]">
+            <div className="rounded-[24px] bg-[#CDA7E4]/66 p-5 shadow-[0_10px_26px_rgba(80,38,104,0.07)]">
               <div className="mb-4 h-1.5 w-12 rounded-full bg-[#7E35B2]" />
               <p className="break-keep text-[16px] font-semibold leading-7 text-ink/84 [word-break:keep-all]">{question.b}</p>
             </div>
@@ -89,10 +89,10 @@ export function QuestionScreen({
                   key={value}
                   type="button"
                   onClick={() => onAnswer(value)}
-                  className={`flex h-14 items-center justify-center rounded-[18px] border bg-white/30 p-1 transition ${
+                  className={`flex h-14 items-center justify-center rounded-[18px] bg-white/30 p-1 transition ${
                     answer === value
-                      ? "border-deep shadow-[0_12px_28px_rgba(80,38,104,0.24),inset_0_0_0_3px_rgba(255,246,227,0.72)]"
-                      : "border-white/72 shadow-[0_8px_18px_rgba(80,38,104,0.045)]"
+                      ? "shadow-[0_12px_28px_rgba(80,38,104,0.24),inset_0_0_0_3px_rgba(255,246,227,0.72)]"
+                      : "shadow-[0_8px_18px_rgba(80,38,104,0.045)]"
                   }`}
                   aria-label={`${value}점 ${labels[value - 1]}`}
                 >
@@ -113,7 +113,7 @@ export function QuestionScreen({
             type="button"
             onClick={onPrev}
             disabled={currentIndex === 0}
-            className="h-14 rounded-2xl border border-white/76 bg-white/58 px-4 font-bold text-deep shadow-[0_14px_30px_rgba(80,38,104,0.1)] disabled:opacity-35"
+            className="h-14 rounded-2xl bg-white/60 px-4 font-bold text-deep shadow-[0_14px_30px_rgba(80,38,104,0.1)] disabled:opacity-60"
           >
             이전
           </button>

@@ -41,7 +41,7 @@ export function ShareCardScreen({ result, onBack, onRestart }: ShareCardScreenPr
         </button>
       </header>
 
-      <div className="rounded-[34px] bg-cream p-2 shadow-soft">
+      <div className="bg-cream p-2 shadow-soft">
         <ResultHeroCard result={result} mode="share" />
       </div>
 

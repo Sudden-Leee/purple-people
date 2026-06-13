@@ -52,51 +52,59 @@ function downloadDataUrl(dataUrl: string, filename: string) {
 }
 
 function ResultExportCard({ result }: { result: ResultType }) {
-  const shortDescription = result.description.split(".")[0] + ".";
-
   return (
-    <div className="w-[390px] bg-[#F7F4EE] p-6 text-ink">
-      <div className="overflow-hidden rounded-[32px] border border-white bg-cream shadow-soft">
-        <div className="relative h-[390px] overflow-hidden">
-          <img src={result.image} alt="" className="absolute inset-0 h-full w-full object-cover" />
-          <div
-            className="absolute inset-0"
-            style={{
-              background: `linear-gradient(to top, ${result.hex}D9 0%, ${result.hex}78 52%, ${result.hex}12 100%)`,
-            }}
-          />
-          <div className="relative z-10 flex h-full flex-col justify-between p-6 text-cream [text-shadow:0_1px_14px_rgba(33,19,41,0.28)]">
-            <Logo className="text-xs font-semibold text-cream/90" />
+    <div className="w-[390px] bg-[#F7F4EE] text-ink">
+      <div className="relative min-h-[760px] overflow-hidden bg-deep p-7 shadow-soft">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${result.image})` }}
+        />
+        <img src={result.image} alt="" crossOrigin="anonymous" className="absolute inset-0 h-full w-full scale-110 object-cover" />
+        <div className="absolute inset-0 bg-cream/24 mix-blend-screen" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(180deg, ${result.hex}4D 0%, rgba(255,246,227,0.36) 46%, ${result.hex}40 100%)`,
+          }}
+        />
+
+        <div className="relative z-10 flex min-h-[680px] flex-col bg-cream/90 px-5 py-6 text-ink shadow-[0_18px_60px_rgba(33,19,41,0.18)]">
+          <div className="text-center">
+            <Logo className="text-[16px] font-medium leading-none text-ink" />
+            <p className="mt-1 font-serif text-[10px] font-normal leading-none text-ink/76">Your Personal Purple</p>
+          </div>
+
+          <div className="mt-10 flex items-center justify-center gap-4">
+            <div className="h-[52px] w-[52px] shrink-0 rounded-full border border-white/90 bg-white/36 p-1.5 shadow-[0_10px_24px_rgba(80,38,104,0.16)]">
+              <div className="h-full w-full rounded-full" style={{ backgroundColor: result.hex }} />
+            </div>
             <div>
-              <p className="text-sm font-semibold text-cream/90">{result.subtitle}</p>
-              <h2 className="mt-3 text-[38px] font-medium leading-none text-cream">
-                <LogoText>{result.title}</LogoText>
+              <h2 className="text-[31px] font-medium uppercase leading-none" style={{ color: result.hex }}>
+                <LogoText>{result.title.replace(" Purple", "")}</LogoText>
               </h2>
-            </div>
-          </div>
-        </div>
-
-        <div className="space-y-5 bg-[#F7F4EE] p-6">
-          <div className="flex items-center gap-4">
-            <div className="h-14 w-14 rounded-2xl border-2 border-white shadow-soft" style={{ backgroundColor: result.hex }} />
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-dark">Personal Purple</p>
-              <p className="mt-1 text-lg font-semibold text-ink">{result.colorName}</p>
+              <p className="mt-2 text-center text-[11px] font-semibold leading-4 text-deep/56">{result.subtitle}</p>
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-2">
+          <div className="mt-8 grid grid-cols-3 gap-2.5">
             {result.keywords.map((keyword) => (
-              <span key={keyword} className="rounded-full bg-white/70 px-3 py-2 text-sm font-semibold text-deep">
-                #{keyword}
+              <span
+                key={keyword}
+                className="flex min-h-[42px] items-center justify-center rounded-[999px] bg-white/48 px-2.5 text-center text-[11px] font-semibold leading-4 text-deep/70 shadow-[0_8px_18px_rgba(80,38,104,0.04)]"
+              >
+                {keyword}
               </span>
             ))}
           </div>
 
-          <p className="text-[15px] font-medium leading-7 text-dark">{shortDescription}</p>
+          <div className="mx-auto mt-9 max-w-[286px] space-y-2.5 break-keep border-y border-deep/8 py-5 text-center text-[14px] font-medium leading-7 text-ink/78 [word-break:keep-all]">
+            {result.description.split(".").map((sentence) => sentence.trim()).filter(Boolean).map((sentence) => (
+              <p key={sentence}>{sentence}.</p>
+            ))}
+          </div>
 
-          <div className="border-t border-deep/10 pt-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-deep">Personal Purple</p>
+          <div className="mt-auto border-t border-deep/10 pt-4">
+            <p className="text-center text-xs font-semibold uppercase tracking-[0.14em] text-deep">Personal Purple</p>
           </div>
         </div>
       </div>

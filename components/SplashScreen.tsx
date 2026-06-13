@@ -7,7 +7,7 @@ type SplashScreenProps = {
 
 export function SplashScreen({ onDone }: SplashScreenProps) {
   return (
-    <section className="-mx-5 -my-5 flex min-h-dvh flex-col overflow-hidden rounded-[34px] bg-cream">
+    <section className="-mx-5 -my-5 flex min-h-dvh flex-col overflow-hidden bg-cream">
       <div className="relative flex flex-1 flex-col justify-between overflow-hidden">
         <img
           src="/visuals/natural-purple.png.jpg"

@@ -161,27 +161,33 @@ export function ResultScreen({ result, profile, onRestart }: ResultScreenProps) 
   };
 
   return (
-    <section className="-mx-5 -my-5 flex min-h-dvh flex-col gap-4">
-      <ResultHeroCard result={result} saturationScore={profile.vividScore} lightnessScore={lightnessScore} />
+    <section className="-mx-5 -my-5 relative flex min-h-dvh flex-col overflow-hidden">
+      <img src={result.image} alt="" className="absolute inset-0 h-full w-full scale-110 object-cover" />
+      <div className="absolute inset-0 bg-cream/30 mix-blend-screen" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,246,227,0.18)_0%,rgba(255,246,227,0.3)_58%,rgba(80,38,104,0.16)_100%)]" />
 
-      {message && (
-        <p className="mx-5 rounded-2xl bg-white/55 px-4 py-3 text-center text-sm font-semibold leading-5 text-deep">
-          {message}
-        </p>
-      )}
+      <div className="relative z-10 flex min-h-dvh flex-col gap-4">
+        <ResultHeroCard result={result} saturationScore={profile.vividScore} lightnessScore={lightnessScore} />
 
-      <div className="mt-auto grid grid-cols-2 gap-3 px-5 pt-1">
-        <button type="button" onClick={handleShare} className="silk-button h-14 rounded-2xl bg-deep font-bold text-cream shadow-[0_14px_30px_rgba(80,38,104,0.2)]">
-          공유하기
-        </button>
-        <button type="button" onClick={handleSaveColor} disabled={isSaving} className="flex h-14 items-center justify-center gap-2 rounded-2xl border border-white/76 bg-white/62 font-bold text-deep shadow-[0_14px_30px_rgba(80,38,104,0.1)] disabled:opacity-60">
-          <DownloadIcon />
-          {isSaving ? "저장 중" : "컬러 저장"}
+        {message && (
+          <p className="mx-5 rounded-2xl bg-white/55 px-4 py-3 text-center text-sm font-semibold leading-5 text-deep">
+            {message}
+          </p>
+        )}
+
+        <div className="mt-auto grid grid-cols-2 gap-3 px-5 pt-1">
+          <button type="button" onClick={handleShare} className="silk-button h-14 rounded-2xl bg-deep font-bold text-cream shadow-[0_14px_30px_rgba(80,38,104,0.2)]">
+            공유하기
+          </button>
+          <button type="button" onClick={handleSaveColor} disabled={isSaving} className="flex h-14 items-center justify-center gap-2 rounded-2xl border border-white/76 bg-white/62 font-bold text-deep shadow-[0_14px_30px_rgba(80,38,104,0.1)] disabled:opacity-60">
+            <DownloadIcon />
+            {isSaving ? "저장 중" : "컬러 저장"}
+          </button>
+        </div>
+        <button type="button" onClick={onRestart} className="mx-5 mb-5 h-14 rounded-2xl border border-white/76 bg-white/62 font-bold text-deep shadow-[0_14px_30px_rgba(80,38,104,0.1)]">
+          다시 테스트하기
         </button>
       </div>
-      <button type="button" onClick={onRestart} className="mx-5 mb-5 h-14 rounded-2xl border border-white/76 bg-white/62 font-bold text-deep shadow-[0_14px_30px_rgba(80,38,104,0.1)]">
-        다시 테스트하기
-      </button>
 
       <div className="pointer-events-none fixed left-[-9999px] top-0" aria-hidden="true">
         <div ref={exportCardRef}>

@@ -73,8 +73,8 @@ export function QuestionScreen({
               <div className="mb-4 h-1.5 w-12 rounded-full bg-[#C9A85D]" />
               <p className="break-keep text-[16px] font-semibold leading-7 text-ink/82 [word-break:keep-all]">{question.a}</p>
             </div>
-            <div className="rounded-[24px] bg-[#CDA7E4]/66 p-5 shadow-[0_10px_26px_rgba(80,38,104,0.07)]">
-              <div className="mb-4 h-1.5 w-12 rounded-full bg-[#7E35B2]" />
+            <div className="rounded-[24px] bg-[#BF86DA]/90 p-5 shadow-[0_10px_26px_rgba(80,38,104,0.09)]">
+              <div className="mb-4 h-1.5 w-12 rounded-full bg-[#6F2A9F]" />
               <p className="break-keep text-[16px] font-semibold leading-7 text-ink/84 [word-break:keep-all]">{question.b}</p>
             </div>
           </div>

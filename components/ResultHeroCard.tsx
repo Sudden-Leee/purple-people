@@ -137,7 +137,7 @@ export function ResultHeroCard({ result, mode = "result", saturationScore, light
 
   return (
     <div
-      className={`result-key-card relative overflow-hidden border border-white/70 bg-deep p-8 shadow-soft ${minHeight}`}
+      className={`result-key-card relative overflow-hidden bg-deep p-8 shadow-soft ${minHeight}`}
       style={{ "--result-color": displayColor, "--result-dot": result.hex } as CSSProperties}
     >
       <img src={result.image} alt="" className="absolute inset-0 h-full w-full scale-110 object-cover" />

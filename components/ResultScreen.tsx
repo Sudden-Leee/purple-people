@@ -161,30 +161,16 @@ export function ResultScreen({ result, profile, onRestart }: ResultScreenProps) 
   };
 
   return (
-    <section className="flex flex-1 flex-col gap-4">
-      <header className="grid grid-cols-[44px_1fr_44px] items-center pt-1">
-        <button type="button" onClick={onRestart} className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/50 text-deep">
-          <BackIcon />
-        </button>
-        <div className="text-center">
-          <p className="text-sm font-medium text-ink">
-            <LogoText>Personal Purple</LogoText>
-          </p>
-        </div>
-        <button type="button" onClick={handleShare} className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/50 text-deep">
-          <ShareIcon />
-        </button>
-      </header>
-
+    <section className="-mx-5 -my-5 flex min-h-dvh flex-col gap-4">
       <ResultHeroCard result={result} saturationScore={profile.vividScore} lightnessScore={lightnessScore} />
 
       {message && (
-        <p className="rounded-2xl bg-white/55 px-4 py-3 text-center text-sm font-semibold leading-5 text-deep">
+        <p className="mx-5 rounded-2xl bg-white/55 px-4 py-3 text-center text-sm font-semibold leading-5 text-deep">
           {message}
         </p>
       )}
 
-      <div className="mt-auto grid grid-cols-2 gap-3 pt-1">
+      <div className="mt-auto grid grid-cols-2 gap-3 px-5 pt-1">
         <button type="button" onClick={handleShare} className="silk-button h-14 rounded-2xl bg-deep font-bold text-cream shadow-[0_14px_30px_rgba(80,38,104,0.2)]">
           공유하기
         </button>
@@ -193,7 +179,7 @@ export function ResultScreen({ result, profile, onRestart }: ResultScreenProps) 
           {isSaving ? "저장 중" : "컬러 저장"}
         </button>
       </div>
-      <button type="button" onClick={onRestart} className="h-14 rounded-2xl border border-white/76 bg-white/62 font-bold text-deep shadow-[0_14px_30px_rgba(80,38,104,0.1)]">
+      <button type="button" onClick={onRestart} className="mx-5 mb-5 h-14 rounded-2xl border border-white/76 bg-white/62 font-bold text-deep shadow-[0_14px_30px_rgba(80,38,104,0.1)]">
         다시 테스트하기
       </button>
 
